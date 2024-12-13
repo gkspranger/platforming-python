@@ -59,3 +59,14 @@ In today's fast-evolving technical landscape, Python has emerged as a dominant l
 ## Deploying and Releasing Artifacts
 
 1. **Idea:** Deploying an application artifact, is not the same as releasing an artifact
+
+2. **Idea:** Support manifests as a source of record for releases
+
+  - Allows for declarative state management and continuous reconciliation
+
+  ```
+  release:
+    dev: 2024.12.13-01
+    qa: 2024.12.13-01
+    prod: 2024.11.25-07
+  ```
