@@ -8,29 +8,43 @@ In today's fast-evolving technical landscape, Python has emerged as a dominant l
 
 - Install the runtime, and never touch it again - other than to remove (maybe)
 
-- A runtime "patch" will almost 100% of the time be a new Python version
+- A runtime patch/PTF will (almost) 100% of the time be a new Python version
 
   - e.g. Current version `3.11.2` would be patched to `3.11.3`
 
+  - New versions bring new features (bugs) and should be deployed in isolation
+
 2. **Idea:** "Support" Multiple Runtimes
 
-- `N - 1` ?? How about `N - 10` !!
+- You've heard `N - 1` ?? How about `N - 10` !!
+
+- **Goal:** Highly predictable deployments
+
+  - In a platform, developers explicitly choose the desired runtime
 
 - Get use to the phrase "available, but not supported"
 
-- In an interpreted environment, it is unreasonable to expect all Python applications to be on the same runtime
+- **Admission:** We are in a "battle" with Docker, K8s, Serverless, Cloud Foundry, etc. - whether we admit it or not
+
+  ```docker
+  FROM python:3.11.1
+  ```
+
+- With an interpreted runtime, it is unreasonable to expect all Python applications to be on the same version
 
   - Everyone would need to "jump" at once
 
-  - Are all of your compiled/linked COBOL modules using the latest COBOL compiler ??
+  - Are all of your systems' compiled/linked COBOL modules using the latest COBOL compiler ??
 
-- **Helper:** Provide shortcuts to runtimes with expected ENV VARs pre-baked
+  - "Abandonware" is a legitimate business decision
+
+- **Helper:** Provide (immutable) shortcuts to (immutable) runtimes with expected environment variables pre-baked
 
   - `/opt/cpy/3.11.1`
 
-  ```
-  export PATH=<path-to-3.11.1-install-dir>/bin:$PATH
-  export LIBPATH=<path-to-3.11.1-install-dir>/lib:$LIBPATH
+  ```bash
+  export PATH=/path/to/cpy/3.11.1/bin:$PATH
+  export LIBPATH=/path/to/cpy/3.11.1/lib:$LIBPATH
   export _BPXK_AUTOCVT='ON'
   export _CEE_RUNOPTS='FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)'
   export _TAG_REDIR_ERR=txt
