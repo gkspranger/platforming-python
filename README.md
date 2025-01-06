@@ -18,49 +18,69 @@ In today's fast-evolving technical landscape, Python has emerged as a dominant l
 
 - You've heard `N - 1` ?? How about `N - 10` !!
 
-- **Goal:** Highly predictable deployments
-
-  - In a platform, developers explicitly choose the desired runtime
-
-- Get use to the phrase "available, but not supported"
-
-- **Admission:** We are in a "battle" with Docker, K8s, Serverless, Cloud Foundry, etc. - whether we admit it or not
-
-  ```docker
-  FROM python:3.11.1
-  ```
+  - Get use to the phrase "available, but not supported"
 
 - With an interpreted runtime, it is unreasonable to expect all Python applications to be on the same version
 
   - Everyone would need to "jump" at once
 
-  - Are all of your systems' compiled/linked COBOL modules using the latest COBOL compiler ??
+    - Has all of your systems' modules been compiled/linked with an actively supported compiler ??
 
   - "Abandonware" is a legitimate business decision
 
+    - An opportunity is identified
+
+    - A solution with limited life expectancy is created
+
+    - Any additional cycles beyond the life expectancy continues to add value, but not enough for maintenance
+
+- **Goal:** Highly predictable deployments
+
+  - In a platform, developers explicitly choose the desired runtime
+
+    ```docker
+    FROM python:3.10.12
+    ```
+
+  - Dynamically changing runtimes are unpredictable
+
+    ```bash
+    # 1/1/2025
+    $ python --version
+    Python 3.10.12 👍
+
+    # 4/1/2025
+    $ python --version
+    Python 3.11.2 💥
+    ```
+
 - **Helper:** Provide (immutable) shortcuts to (immutable) runtimes with expected environment variables pre-baked
 
-  - `/opt/cpy/3.11.1`
+  - `/opt/cpy/3.10.12`
 
   ```bash
-  export PATH=/path/to/cpy/3.11.1/bin:$PATH
-  export LIBPATH=/path/to/cpy/3.11.1/lib:$LIBPATH
+  export PATH=/path/to/cpy/3.10.12/bin:$PATH
+  export LIBPATH=/path/to/cpy/3.10.12/lib:$LIBPATH
   export _BPXK_AUTOCVT='ON'
   export _CEE_RUNOPTS='FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)'
   export _TAG_REDIR_ERR=txt
   export _TAG_REDIR_IN=txt
   export _TAG_REDIR_OUT=txt
+
+  exec /path/to/cpy/3.10.12/bin/python "$@"
   ```
 
 ## Managing Python Packages
 
-1. **Idea:** Never install system site packages
+1. **Idea:** Never install "global" site packages
 
-  - Goal is to NOT dirty the host
+- AKA :: system-site packages
+
+- Goal is to NOT dirty the host
 
 2. **Idea:** Only ship packages to the build environment
 
-  - Promoting packages across multiple environments is an unmanageable mess
+- Promoting packages across multiple environments is an unmanageable mess
 
 3. **Idea:** `venv` is allowed for development, but discouraged as being part of an "application"
 
