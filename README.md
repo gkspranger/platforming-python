@@ -79,7 +79,7 @@ In today's fast-evolving technical landscape, Python has emerged as a dominant l
 - AKA :: system-site packages OR site-wide packages
 
   ```bash
-  # happens when `pip install` as root
+  # happens when sudo'ing as root to `pip install`
   /usr/lpp/IBM/cyp/v3r13/pyz/lib/python3.13/site-packages
   ```
 
@@ -92,6 +92,8 @@ In today's fast-evolving technical landscape, Python has emerged as a dominant l
 - 💀 `Dependency Hell` 💀
 
   - Arises when several packages have dependencies on the same shared packages, but they depend on different and incompatible versions of the shared packages
+
+  - Is made more difficult when multiple teams are using multiple versions of multiple packages
 
 2. **Idea:** `venv` is allowed for development, but discouraged as being part of an application's runtime
 
