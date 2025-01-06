@@ -59,6 +59,8 @@ In today's fast-evolving technical landscape, Python has emerged as a dominant l
   - `/opt/cpy/3.10.12`
 
   ```bash
+  #!/bin/sh
+
   export PATH=/path/to/cpy/3.10.12/bin:$PATH
   export LIBPATH=/path/to/cpy/3.10.12/lib:$LIBPATH
   export _BPXK_AUTOCVT='ON'
@@ -72,19 +74,45 @@ In today's fast-evolving technical landscape, Python has emerged as a dominant l
 
 ## Managing Python Packages
 
-1. **Idea:** Never install "global" site packages
+1. **Idea:** Never install "global" packages
 
-- AKA :: system-site packages
+- AKA :: system-site packages OR site-wide packages
 
-- Goal is to NOT dirty the host
+  ```bash
+  # happens when `pip install` as root
+  /usr/lpp/IBM/cyp/v3r13/pyz/lib/python3.13/site-packages
+  ```
 
-2. **Idea:** Only ship packages to the build environment
+- **(Repeat) Goal:** Highly predictable deployments
+
+  - Achieved via immutable runtimes
+
+  - CANNOT dirty the host
+
+- 💀 `Dependency Hell` 💀
+
+  - Arises when several packages have dependencies on the same shared packages, but they depend on different and incompatible versions of the shared packages
+
+2. **Idea:** `venv` is allowed for development, but discouraged as being part of an application's runtime
+
+```mermaid
+graph TB
+  a[PyPi Repository]
+
+  d[MVS DEV]
+  q[MVS QA]
+  p[MVS PROD]
+
+  d --> a
+  q --> a
+  p --> a
+```
+
+3. **Idea:** Platform should encourage/enable custom Python packages
+
+4. **MAYBE Idea:** Only ship packages to the build environment
 
 - Promoting packages across multiple environments is an unmanageable mess
-
-3. **Idea:** `venv` is allowed for development, but discouraged as being part of an "application"
-
-4. **Idea:** We should encourage and support custom Python packages
 
 ## Creating Application Artifacts
 
